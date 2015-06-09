@@ -45,6 +45,14 @@ Describe "7z" {
 
         }
 
+        It "Should list the archive's contents" {
+            { Show-ArchiveItems $archive } | Should Not Throw
+        }
+
+        It "Should remove an item from an archive" {
+            #{ Remove-ArchiveItem $archive 'two.txt' } | Should Not Throw
+        }
+
     }
 
 }
@@ -57,11 +65,11 @@ Describe "Aliases" {
     It "Expand-Archive alias should exist" {
         (Get-Alias -Definition Expand-Archive).name | Should Be "7zea"        
     }
-    It "Show-Archive alias should exist" {
-        (Get-Alias -Definition Show-Archive).name | Should Be "7zsa"        
+    It "Show-ArchiveItems alias should exist" {
+        (Get-Alias -Definition Show-ArchiveItems).name | Should Be "7zsa"        
     }
-    It "Remove-Item alias should exist" {
-        #(Get-Alias -Definition Remove-Item).name | Should Be "7zri"        
+    It "Remove-ArchiveItem alias should exist" {
+        (Get-Alias -Definition Remove-ArchiveItem).name | Should Be "7zri"        
     }
 
 }
