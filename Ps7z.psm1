@@ -300,15 +300,9 @@ Function Remove-ArchiveItem {
 
         Foreach ($File In $Files) {
 
-            # FileInfo object
-            $Item = Get-ChildItem $File
-
-            # build argument list
-            $args = @()
-
             Write-Verbose "$7z d $($args -join ' ') $Archive $File"
             # invoke command
-            & $7z d @args $Archive $File
+            & $7z d $Archive $File
 
         }
 
