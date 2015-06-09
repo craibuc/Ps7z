@@ -206,10 +206,10 @@ Export-ModuleMember -Alias 7zea
     $Archives
 
 .EXAMPLE
-    show-Archive "C:\path\to\archive\archive.zip"
+    Show-ArchiveItems "C:\path\to\archive\archive.zip"
 
 #>
-Function Show-Archive () {
+Function Show-ArchiveItems () {
 
     [CmdletBinding()]
     param (
@@ -235,8 +235,27 @@ Function Show-Archive () {
             $args += "-t$($Item.Extension.Replace('.',''))" # archive type (e.g. 7z,zip) extracted from file's extension
 
             Write-Verbose "$7z l $($args -join ' ') $Archive"
-            # invoke command
-            & $7z l @args $Archive
+            # invoke command; capture STDOUT
+            #& $7z l @args $Archive
+            $output = & $7z l @args $Archive
+
+            #
+            # parse stdout; convert to PsObject[] 
+            # http://social.technet.microsoft.com/wiki/contents/articles/4244.how-to-convert-text-output-of-a-legacy-console-application-to-powershell-objects.aspx
+            #
+            $output = $output[12..($output.Length-3)] # remove stuff before and after dash separators (including dash rows)
+            $output | foreach {
+                $parts = $_ -split "\s+", 6
+                New-Object -Type PSObject -Property @{
+                    #Date = $parts[0]
+                    #Time = $parts[1]
+                    DateTime = "{0} {1}" -f $parts[0], $parts[1]
+                    Attributes = $parts[2]
+                    Size = $parts[3]
+                    Compressed = $parts[4]
+                    Name = $parts[5]
+                }
+            }
 
         }
 
@@ -245,8 +264,8 @@ Function Show-Archive () {
 
 }
 
-Export-ModuleMember Show-Archive
-Set-Alias 7zsa Show-Archive
+Export-ModuleMember Show-ArchiveItems
+Set-Alias 7zsa Show-ArchiveItems
 Export-ModuleMember -Alias 7zsa
 
 <#
@@ -260,8 +279,7 @@ Export-ModuleMember -Alias 7zsa
     Remove-Item "C:\path\to\archive\archive.zip" "remove.txt"
 
 #>
-<#
-Function Remove-Item {
+Function Remove-ArchiveItem {
 
     [CmdletBinding()]
     param (
@@ -299,7 +317,6 @@ Function Remove-Item {
 
 }
 
-Export-ModuleMember Remove-Item
-Set-Alias 7zri Remove-Item
+Export-ModuleMember Remove-ArchiveItem
+Set-Alias 7zri Remove-ArchiveItem
 Export-ModuleMember -Alias 7zri
-#>
