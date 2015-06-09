@@ -50,7 +50,7 @@ Describe "7z" {
         }
 
         It "Should remove an item from an archive" {
-            #{ Remove-ArchiveItem $archive 'two.txt' } | Should Not Throw
+            { Remove-ArchiveItem $archive 'two.txt' } | Should Not Throw
         }
 
     }
