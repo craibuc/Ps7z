@@ -2,9 +2,9 @@ Import-Module Ps7z -Force
 
 Describe "7z" {
 
-    Write-Host "TestDrive: $TestDrive"
+    Write-Verbose "TestDrive: $TestDrive"
 
-    Context "Basic operation" {
+    Context "Operations" {
 
         $content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor."
         $file = New-item "TestDrive:\one.txt" -Type File
@@ -53,23 +53,23 @@ Describe "7z" {
             { Remove-ArchiveItem $archive 'two.txt' } | Should Not Throw
         }
 
-    }
+    } # Operations
 
-}
+    Context "Aliases" {
 
-Describe "Aliases" {
+        It "New-Archive alias should exist" {
+            (Get-Alias -Definition New-Archive).name | Should Be "7zna"
+        }
+        It "Expand-Archive alias should exist" {
+            (Get-Alias -Definition Expand-Archive).name | Should Be "7zea"        
+        }
+        It "Show-ArchiveItems alias should exist" {
+            (Get-Alias -Definition Show-ArchiveItems).name | Should Be "7zsa"        
+        }
+        It "Remove-ArchiveItem alias should exist" {
+            (Get-Alias -Definition Remove-ArchiveItem).name | Should Be "7zri"        
+        }
 
-    It "New-Archive alias should exist" {
-        (Get-Alias -Definition New-Archive).name | Should Be "7zna"
-    }
-    It "Expand-Archive alias should exist" {
-        (Get-Alias -Definition Expand-Archive).name | Should Be "7zea"        
-    }
-    It "Show-ArchiveItems alias should exist" {
-        (Get-Alias -Definition Show-ArchiveItems).name | Should Be "7zsa"        
-    }
-    It "Remove-ArchiveItem alias should exist" {
-        (Get-Alias -Definition Remove-ArchiveItem).name | Should Be "7zri"        
-    }
+    } # Aliases
 
 }
