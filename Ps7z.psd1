@@ -15,7 +15,7 @@ Sources:
     ModuleToProcess = 'Ps7z.psm1'
 
     # Version number of this module.
-    ModuleVersion = '0.0.2'
+    ModuleVersion = '0.0.3'
 
     # ID used to uniquely identify this module
     GUID = 'B05A1456-0AB2-11E5-911B-2FCC40254040'
@@ -66,7 +66,7 @@ Sources:
     FormatsToProcess = @()
 
     # Modules to import as nested modules of the module specified in ModuleToProcess
-    NestedModules = 'Ps7z.psm1'
+    NestedModules = ''
 
     # Functions to export from this module
     FunctionsToExport = '*'
